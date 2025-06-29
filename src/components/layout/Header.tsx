@@ -1,13 +1,15 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Settings, 
-  Activity, 
-  Mic, 
-  MicOff, 
+import {
+  Settings,
+  Activity,
+  Mic,
+  MicOff,
   Zap,
   Menu,
-  X
+  X,
+  MessageCircle,
+  Building
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -19,15 +21,19 @@ interface HeaderProps {
   onMenuToggle: () => void
   isMenuOpen: boolean
   systemStatus: 'online' | 'offline' | 'connecting'
+  currentPage?: 'chat' | 'tekla'
+  onPageChange?: (page: 'chat' | 'tekla') => void
 }
 
-export function Header({ 
-  isVoiceActive, 
-  onVoiceToggle, 
+export function Header({
+  isVoiceActive,
+  onVoiceToggle,
   onSettingsClick,
   onMenuToggle,
   isMenuOpen,
-  systemStatus 
+  systemStatus,
+  currentPage = 'chat',
+  onPageChange
 }: HeaderProps) {
   return (
     <motion.header
@@ -69,19 +75,44 @@ export function Header({
           </motion.div>
         </div>
 
-        {/* Center section - System Status */}
-        <div className="hidden md:flex items-center space-x-2">
-          <Activity className={cn(
-            "h-4 w-4",
-            systemStatus === 'online' && "text-green-500",
-            systemStatus === 'offline' && "text-red-500",
-            systemStatus === 'connecting' && "text-yellow-500"
-          )} />
-          <span className="text-sm font-medium">
-            {systemStatus === 'online' && '系統正常'}
-            {systemStatus === 'offline' && '系統離線'}
-            {systemStatus === 'connecting' && '連接中...'}
-          </span>
+        {/* Center section - Navigation & System Status */}
+        <div className="hidden md:flex items-center space-x-4">
+          {/* Page Navigation */}
+          <div className="flex items-center space-x-1 bg-muted/50 rounded-lg p-1">
+            <Button
+              variant={currentPage === 'chat' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => onPageChange?.('chat')}
+              className="flex items-center gap-2"
+            >
+              <MessageCircle className="h-4 w-4" />
+              AI 助手
+            </Button>
+            <Button
+              variant={currentPage === 'tekla' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => onPageChange?.('tekla')}
+              className="flex items-center gap-2"
+            >
+              <Building className="h-4 w-4" />
+              Tekla 整合
+            </Button>
+          </div>
+
+          {/* System Status */}
+          <div className="flex items-center space-x-2">
+            <Activity className={cn(
+              "h-4 w-4",
+              systemStatus === 'online' && "text-green-500",
+              systemStatus === 'offline' && "text-red-500",
+              systemStatus === 'connecting' && "text-yellow-500"
+            )} />
+            <span className="text-sm font-medium">
+              {systemStatus === 'online' && '系統正常'}
+              {systemStatus === 'offline' && '系統離線'}
+              {systemStatus === 'connecting' && '連接中...'}
+            </span>
+          </div>
         </div>
 
         {/* Right section - Controls */}

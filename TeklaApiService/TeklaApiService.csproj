@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Tekla Structures 2025 Open API 套件 -->
+    <PackageReference Include="Tekla.Structures.Model" Version="2025.0.0" />
+    <PackageReference Include="Tekla.Structures.Catalogs" Version="2025.0.0" />
+    <PackageReference Include="Tekla.Structures.Dialog" Version="2025.0.0" />
+    <PackageReference Include="Tekla.Structures.Drawing" Version="2025.0.0" />
+    <PackageReference Include="Tekla.Application.Library" Version="2025.0.0" />
+    
+    <!-- 相依套件 -->
+    <PackageReference Include="Tekla.Structures" Version="2025.0.0" />
+    <PackageReference Include="Tekla.Structures.Datatype" Version="2025.0.0" />
+    <PackageReference Include="Tekla.Common.Geometry" Version="4.6.4" />
+    <PackageReference Include="Tekla.Technology.Serialization" Version="4.3.7" />
+    <PackageReference Include="Trimble.Remoting" Version="4.0.8" />
+    
+    <!-- Web API 套件 -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>

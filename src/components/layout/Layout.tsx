@@ -10,6 +10,8 @@ interface LayoutProps {
   onTagClick?: (tag: string) => void
   onCategorySelect?: (category: CommandCategory) => void
   currentInput?: string
+  currentPage?: 'chat' | 'tekla'
+  onPageChange?: (page: 'chat' | 'tekla') => void
 }
 
 export function Layout({
@@ -18,7 +20,9 @@ export function Layout({
   onCommandRerun,
   onTagClick,
   onCategorySelect,
-  currentInput
+  currentInput,
+  currentPage = 'chat',
+  onPageChange
 }: LayoutProps) {
   const [isVoiceActive, setIsVoiceActive] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -56,6 +60,8 @@ export function Layout({
         onMenuToggle={handleMenuToggle}
         isMenuOpen={isSidebarOpen}
         systemStatus={systemStatus}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
       />
       
       <div className="flex">

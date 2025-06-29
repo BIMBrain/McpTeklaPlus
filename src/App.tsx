@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react'
 import { Layout } from './components/layout/Layout'
 import { ChatInterface } from './components/chat/ChatInterface'
 import { WelcomePage } from './components/welcome/WelcomePage'
+import { TeklaIntegration } from './components/tekla/TeklaIntegration'
 import { Command, CommandCategory } from './types/commands'
 
 function App() {
   const chatRef = useRef<{ sendMessage: (message: string) => void }>(null)
   const [currentInput, setCurrentInput] = useState('')
   const [showWelcome, setShowWelcome] = useState(true)
+  const [currentPage, setCurrentPage] = useState<'chat' | 'tekla'>('chat')
 
   const handleCommandSelect = (command: Command) => {
     // Fill the first example or the command content into chat
@@ -45,11 +47,17 @@ function App() {
       onTagClick={handleTagClick}
       onCategorySelect={handleCategorySelect}
       currentInput={currentInput}
+      currentPage={currentPage}
+      onPageChange={setCurrentPage}
     >
-      <ChatInterface
-        ref={chatRef}
-        onInputChange={setCurrentInput}
-      />
+      {currentPage === 'chat' ? (
+        <ChatInterface
+          ref={chatRef}
+          onInputChange={setCurrentInput}
+        />
+      ) : (
+        <TeklaIntegration />
+      )}
     </Layout>
   )
 }
