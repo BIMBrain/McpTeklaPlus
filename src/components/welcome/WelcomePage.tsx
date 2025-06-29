@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Zap, 
-  Mic, 
-  Brain, 
-  Wrench, 
-  BarChart3, 
+import {
+  Zap,
+  Mic,
+  Brain,
+  Wrench,
+  BarChart3,
   Sparkles,
   ArrowRight,
   Play,
-  Star
+  Star,
+  Building
 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { TeklaProductSelector } from '../tekla/TeklaProductSelector'
 import { cn } from '@/lib/utils'
 
 interface WelcomePageProps {
@@ -59,6 +61,30 @@ const stats = [
 ]
 
 export function WelcomePage({ onGetStarted, className }: WelcomePageProps) {
+  const [currentStep, setCurrentStep] = useState<'welcome' | 'product-selection'>('welcome')
+  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+
+  const handleProductSelect = (product: any) => {
+    setSelectedProduct(product)
+  }
+
+  const handleProductContinue = () => {
+    onGetStarted()
+  }
+
+  const handleGetStarted = () => {
+    setCurrentStep('product-selection')
+  }
+
+  if (currentStep === 'product-selection') {
+    return (
+      <TeklaProductSelector
+        onProductSelect={handleProductSelect}
+        onContinue={handleProductContinue}
+      />
+    )
+  }
+
   return (
     <div className={cn("min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50", className)}>
       {/* Hero Section */}
@@ -123,11 +149,11 @@ export function WelcomePage({ onGetStarted, className }: WelcomePageProps) {
           >
             <Button
               size="lg"
-              onClick={onGetStarted}
+              onClick={handleGetStarted}
               className="px-8 py-4 text-lg figma-shadow hover:figma-shadow-lg transition-all"
             >
-              <Play className="h-5 w-5 mr-2" />
-              開始使用
+              <Building className="h-5 w-5 mr-2" />
+              選擇 Tekla 產品
               <ArrowRight className="h-5 w-5 ml-2" />
             </Button>
             <Button
