@@ -220,11 +220,7 @@ export function useExample() {
 本專案整合了完整的 Tekla Structures 2025 Open API，包含以下核心模組：
 
 #### 🔧 主要 NuGet 套件
-- **Tekla.Structures.Model** `2025.0.0` - 3D 模型操作與幾何處理
-- **Tekla.Structures.Catalogs** `2025.0.0` - 材料與截面目錄管理
-- **Tekla.Structures.Dialog** `2025.0.0` - 用戶介面對話框
-- **Tekla.Structures.Drawing** `2025.0.0` - 圖紙與視圖生成
-- **Tekla.Application.Library** `2025.0.0` - 應用程式整合庫
+![alt text](image.png)
 
 #### 🎯 功能模組
 

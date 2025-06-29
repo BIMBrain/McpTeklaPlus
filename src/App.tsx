@@ -3,13 +3,14 @@ import { Layout } from './components/layout/Layout'
 import { ChatInterface } from './components/chat/ChatInterface'
 import { WelcomePage } from './components/welcome/WelcomePage'
 import { TeklaIntegration } from './components/tekla/TeklaIntegration'
+import { ResponsiveDashboard } from './components/dashboard/ResponsiveDashboard'
 import { Command, CommandCategory } from './types/commands'
 
 function App() {
   const chatRef = useRef<{ sendMessage: (message: string) => void }>(null)
   const [currentInput, setCurrentInput] = useState('')
   const [showWelcome, setShowWelcome] = useState(true)
-  const [currentPage, setCurrentPage] = useState<'chat' | 'tekla'>('chat')
+  const [currentPage, setCurrentPage] = useState<'chat' | 'tekla' | 'dashboard'>('chat')
 
   const handleCommandSelect = (command: Command) => {
     // Fill the first example or the command content into chat
@@ -55,8 +56,10 @@ function App() {
           ref={chatRef}
           onInputChange={setCurrentInput}
         />
-      ) : (
+      ) : currentPage === 'tekla' ? (
         <TeklaIntegration />
+      ) : (
+        <ResponsiveDashboard />
       )}
     </Layout>
   )

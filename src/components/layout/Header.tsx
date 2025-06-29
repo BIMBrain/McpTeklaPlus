@@ -9,7 +9,8 @@ import {
   Menu,
   X,
   MessageCircle,
-  Building
+  Building,
+  BarChart3
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -21,8 +22,8 @@ interface HeaderProps {
   onMenuToggle: () => void
   isMenuOpen: boolean
   systemStatus: 'online' | 'offline' | 'connecting'
-  currentPage?: 'chat' | 'tekla'
-  onPageChange?: (page: 'chat' | 'tekla') => void
+  currentPage?: 'chat' | 'tekla' | 'dashboard'
+  onPageChange?: (page: 'chat' | 'tekla' | 'dashboard') => void
 }
 
 export function Header({
@@ -96,6 +97,15 @@ export function Header({
             >
               <Building className="h-4 w-4" />
               Tekla 整合
+            </Button>
+            <Button
+              variant={currentPage === 'dashboard' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => onPageChange?.('dashboard')}
+              className="flex items-center gap-2"
+            >
+              <BarChart3 className="h-4 w-4" />
+              儀表板
             </Button>
           </div>
 

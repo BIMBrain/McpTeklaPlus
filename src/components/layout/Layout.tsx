@@ -10,8 +10,8 @@ interface LayoutProps {
   onTagClick?: (tag: string) => void
   onCategorySelect?: (category: CommandCategory) => void
   currentInput?: string
-  currentPage?: 'chat' | 'tekla'
-  onPageChange?: (page: 'chat' | 'tekla') => void
+  currentPage?: 'chat' | 'tekla' | 'dashboard'
+  onPageChange?: (page: 'chat' | 'tekla' | 'dashboard') => void
 }
 
 export function Layout({
