@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>連接測試</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            text-align: center; 
+            padding: 50px;
+            background: #f0f0f0;
+        }
+        .success { 
+            color: green; 
+            font-size: 24px; 
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 連接成功！</h1>
+    <div class="success">✅ 如果您看到這個頁面，表示服務器正常運行</div>
+    <p>時間: <span id="time"></span></p>
+    <a href="/" style="background: blue; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">前往主應用程式</a>
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
