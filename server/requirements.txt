@@ -1,0 +1,62 @@
+# AI 模型和推理
+torch>=2.1.0
+transformers>=4.36.0
+accelerate>=0.24.0
+bitsandbytes>=0.41.0
+flash-attn>=2.3.0
+
+# RAG 系統
+langchain>=0.1.0
+langchain-community>=0.0.10
+chromadb>=0.4.18
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4
+
+# 向量資料庫
+qdrant-client>=1.7.0
+weaviate-client>=3.25.0
+
+# Web 框架
+fastapi>=0.104.0
+uvicorn>=0.24.0
+websockets>=12.0
+pydantic>=2.5.0
+
+# 檔案處理
+pypdf>=3.17.0
+python-docx>=1.1.0
+openpyxl>=3.1.2
+python-multipart>=0.0.6
+
+# 資料庫
+sqlalchemy>=2.0.23
+alembic>=1.13.0
+redis>=5.0.1
+
+# 監控和日誌
+prometheus-client>=0.19.0
+structlog>=23.2.0
+rich>=13.7.0
+
+# 安全性
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-multipart>=0.0.6
+
+# 工具
+requests>=2.31.0
+aiofiles>=23.2.1
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+click>=8.1.7
+
+# GPU 監控
+nvidia-ml-py>=12.535.133
+psutil>=5.9.6
+
+# 開發工具
+pytest>=7.4.3
+pytest-asyncio>=0.21.1
+black>=23.11.0
+isort>=5.12.0
+mypy>=1.7.0

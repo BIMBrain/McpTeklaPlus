@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" 
+           Name="MCP Tekla+ Client" 
+           Language="1033" 
+           Version="1.0.0.0" 
+           Manufacturer="BIMBrain" 
+           UpgradeCode="A1B2C3D4-E5F6-7890-ABCD-123456789012">
+    
+    <Package InstallerVersion="200" 
+             Compressed="yes" 
+             InstallScope="perMachine" 
+             Description="MCP Tekla+ 工作站客戶端 - AI 輔助 Tekla Structures 建模平台"
+             Comments="支援 Tekla Structures 2025 Open API 整合"
+             Manufacturer="BIMBrain"
+             InstallerVersion="500" />
+
+    <MajorUpgrade DowngradeErrorMessage="已安裝較新版本的 MCP Tekla+ Client。" />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- 安裝條件檢查 -->
+    <Condition Message="此應用程式需要 Windows 10 或更新版本。">
+      <![CDATA[Installed OR (VersionNT >= 1000)]]>
+    </Condition>
+    
+    <Condition Message="此應用程式需要 .NET 8.0 Runtime。">
+      <![CDATA[Installed OR NETFRAMEWORK48]]>
+    </Condition>
+
+    <!-- 屬性定義 -->
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/BIMBrain/McpTeklaPlus" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/BIMBrain/McpTeklaPlus" />
+    <Property Id="ARPNOREPAIR" Value="1" />
+    <Property Id="ARPNOMODIFY" Value="1" />
+    
+    <!-- 自動啟動選項 -->
+    <Property Id="AUTOSTART" Value="1" />
+    <Property Id="STARTMINIMIZED" Value="1" />
+
+    <!-- 檢查 .NET Framework -->
+    <PropertyRef Id="NETFRAMEWORK48" />
+
+    <!-- 主要功能 -->
+    <Feature Id="ProductFeature" Title="MCP Tekla+ Client" Level="1" Description="主要應用程式檔案">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ConfigComponents" />
+    </Feature>
+
+    <!-- 自動啟動功能 -->
+    <Feature Id="AutoStartFeature" Title="開機自動啟動" Level="1" Description="系統啟動時自動執行 MCP Tekla+ Client">
+      <ComponentRef Id="AutoStartupComponent" />
+    </Feature>
+
+    <!-- 桌面捷徑功能 -->
+    <Feature Id="DesktopShortcutFeature" Title="桌面捷徑" Level="1" Description="在桌面建立應用程式捷徑">
+      <ComponentRef Id="DesktopShortcutComponent" />
+    </Feature>
+
+    <!-- 開始選單功能 -->
+    <Feature Id="StartMenuFeature" Title="開始選單" Level="1" Description="在開始選單建立應用程式捷徑">
+      <ComponentRef Id="StartMenuComponent" />
+    </Feature>
+
+    <!-- UI 設定 -->
+    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    
+    <!-- 自訂對話框 -->
+    <UI>
+      <Dialog Id="ServerConfigDlg" Width="370" Height="270" Title="伺服器設定">
+        <Control Id="ServerLabel" Type="Text" X="20" Y="60" Width="100" Height="17" Text="伺服器地址:" />
+        <Control Id="ServerEdit" Type="Edit" X="120" Y="58" Width="200" Height="18" Property="SERVER_ADDRESS" />
+        
+        <Control Id="PortLabel" Type="Text" X="20" Y="90" Width="100" Height="17" Text="連接埠:" />
+        <Control Id="PortEdit" Type="Edit" X="120" Y="88" Width="100" Height="18" Property="SERVER_PORT" />
+        
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="上一步" />
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Text="下一步" Default="yes" />
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="取消" />
+      </Dialog>
+    </UI>
+
+    <!-- 安裝序列 -->
+    <InstallExecuteSequence>
+      <Custom Action="SetServerConfig" After="InstallFiles">NOT Installed</Custom>
+    </InstallExecuteSequence>
+
+    <!-- 自訂動作 -->
+    <CustomAction Id="SetServerConfig" 
+                  ExeCommand="[INSTALLFOLDER]MCP.Tekla.Client.exe --configure --server=[SERVER_ADDRESS] --port=[SERVER_PORT]"
+                  Directory="INSTALLFOLDER"
+                  Execute="deferred"
+                  Return="ignore" />
+
+  </Product>
+
+  <!-- 目錄結構 -->
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="CompanyFolder" Name="BIMBrain">
+          <Directory Id="INSTALLFOLDER" Name="MCP Tekla+" />
+        </Directory>
+      </Directory>
+      
+      <!-- 開始選單 -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="MCP Tekla+" />
+      </Directory>
+      
+      <!-- 桌面 -->
+      <Directory Id="DesktopFolder" Name="Desktop" />
+      
+      <!-- 自動啟動 -->
+      <Directory Id="StartupFolder" Name="Startup" />
+      
+      <!-- 應用程式資料 -->
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="AppDataFolder" Name="MCP Tekla+" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <!-- 主要組件 -->
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- 主執行檔 -->
+      <Component Id="MainExecutable" Guid="B1C2D3E4-F5G6-7890-HIJK-123456789012">
+        <File Id="MainExe" Source="$(var.PublishDir)\MCP.Tekla.Client.exe" KeyPath="yes">
+          <Shortcut Id="MainExeShortcut" 
+                    Directory="ApplicationProgramsFolder" 
+                    Name="MCP Tekla+ Client"
+                    Description="AI 輔助 Tekla Structures 建模平台"
+                    Icon="AppIcon.ico" />
+        </File>
+      </Component>
+
+      <!-- 依賴檔案 -->
+      <Component Id="Dependencies" Guid="C2D3E4F5-G6H7-8901-IJKL-234567890123">
+        <File Source="$(var.PublishDir)\MCP.Tekla.Client.dll" />
+        <File Source="$(var.PublishDir)\MCP.Tekla.Client.deps.json" />
+        <File Source="$(var.PublishDir)\MCP.Tekla.Client.runtimeconfig.json" />
+      </Component>
+
+      <!-- .NET Runtime 檔案 -->
+      <Component Id="RuntimeFiles" Guid="D3E4F5G6-H7I8-9012-JKLM-345678901234">
+        <File Source="$(var.PublishDir)\Microsoft.Extensions.Hosting.dll" />
+        <File Source="$(var.PublishDir)\Microsoft.Extensions.DependencyInjection.dll" />
+        <File Source="$(var.PublishDir)\Microsoft.Extensions.Logging.dll" />
+        <File Source="$(var.PublishDir)\System.Text.Json.dll" />
+      </Component>
+
+      <!-- Tekla API 檔案 -->
+      <Component Id="TeklaApiFiles" Guid="E4F5G6H7-I8J9-0123-KLMN-456789012345">
+        <File Source="$(var.PublishDir)\Tekla.Structures.Model.dll" />
+        <File Source="$(var.PublishDir)\Tekla.Structures.Catalogs.dll" />
+        <File Source="$(var.PublishDir)\Tekla.Structures.Dialog.dll" />
+        <File Source="$(var.PublishDir)\Tekla.Application.Library.dll" />
+      </Component>
+
+      <!-- 圖標和資源 -->
+      <Component Id="Resources" Guid="F5G6H7I8-J9K0-1234-LMNO-567890123456">
+        <File Id="AppIcon" Source="$(var.ResourceDir)\app.ico" />
+        <File Source="$(var.ResourceDir)\connected.ico" />
+        <File Source="$(var.ResourceDir)\disconnected.ico" />
+        <File Source="$(var.ResourceDir)\error.ico" />
+        <File Source="$(var.ResourceDir)\working.ico" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- 配置檔案組件 -->
+    <ComponentGroup Id="ConfigComponents" Directory="AppDataFolder">
+      <Component Id="ConfigFiles" Guid="G6H7I8J9-K0L1-2345-MNOP-678901234567">
+        <File Source="$(var.ConfigDir)\appsettings.json" />
+        <File Source="$(var.ConfigDir)\appsettings.Production.json" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <!-- 捷徑組件 -->
+  <Fragment>
+    <!-- 桌面捷徑 -->
+    <Component Id="DesktopShortcutComponent" Directory="DesktopFolder" Guid="H7I8J9K0-L1M2-3456-NOPQ-789012345678">
+      <Shortcut Id="DesktopShortcut"
+                Name="MCP Tekla+"
+                Description="AI 輔助 Tekla Structures 建模平台"
+                Target="[INSTALLFOLDER]MCP.Tekla.Client.exe"
+                Icon="AppIcon.ico" />
+      <RemoveFolder Id="RemoveDesktopShortcut" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\BIMBrain\MCP Tekla+" Name="DesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+
+    <!-- 開始選單組件 -->
+    <Component Id="StartMenuComponent" Directory="ApplicationProgramsFolder" Guid="I8J9K0L1-M2N3-4567-OPQR-890123456789">
+      <RemoveFolder Id="RemoveApplicationProgramsFolder" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\BIMBrain\MCP Tekla+" Name="StartMenu" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+
+    <!-- 自動啟動組件 -->
+    <Component Id="AutoStartupComponent" Directory="INSTALLFOLDER" Guid="J9K0L1M2-N3O4-5678-PQRS-901234567890">
+      <Condition>AUTOSTART</Condition>
+      <RegistryValue Root="HKCU" 
+                     Key="Software\Microsoft\Windows\CurrentVersion\Run" 
+                     Name="MCP Tekla+" 
+                     Value="&quot;[INSTALLFOLDER]MCP.Tekla.Client.exe&quot; --minimized" 
+                     Type="string" 
+                     KeyPath="yes" />
+    </Component>
+  </Fragment>
+
+  <!-- 圖標定義 -->
+  <Fragment>
+    <Icon Id="AppIcon.ico" SourceFile="$(var.ResourceDir)\app.ico" />
+  </Fragment>
+
+  <!-- 屬性預設值 -->
+  <Fragment>
+    <Property Id="SERVER_ADDRESS" Value="localhost" />
+    <Property Id="SERVER_PORT" Value="8000" />
+  </Fragment>
+
+</Wix>
