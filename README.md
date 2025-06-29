@@ -76,15 +76,6 @@
 ### 安裝步驟
 
 1. **克隆專案**
-   ```bash
-<<<<<<< HEAD
-   git clone https://github.com/BIMBrain/McpTeklaPlus.git
-   cd McpTeklaPlus
-=======
-   git clone https://github.com/YOUR_USERNAME/mcp-tekla-plus.git
-   cd mcp-tekla-plus
->>>>>>> 8b79138d3808954573bb5da878f5cf343f68e52a
-   ```
 
 2. **安裝依賴**
    ```bash
@@ -231,11 +222,6 @@ export function useExample() {
 - 📧 Email: ppson0@gmail.com
 - 🐛 Issues: [GitHub Issues](https://github.com/BIMBrain/McpTeklaPlus/issues)
 - 💬 Discussions: [GitHub Discussions](https://github.com/BIMBrain/McpTeklaPlus/discussions)
-=======
-- 📧 Email: mcp-tekla-plus@example.com
-- 🐛 Issues: [GitHub Issues](https://github.com/YOUR_USERNAME/mcp-tekla-plus/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/YOUR_USERNAME/mcp-tekla-plus/discussions)
->>>>>>> 8b79138d3808954573bb5da878f5cf343f68e52a
 
 ---
 
