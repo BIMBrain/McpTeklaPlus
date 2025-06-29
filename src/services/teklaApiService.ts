@@ -3,7 +3,7 @@
  * 提供與後端 Tekla API 的通訊功能
  */
 
-const API_BASE_URL = 'https://localhost:7000/api/tekla';
+const API_BASE_URL = import.meta.env.VITE_TEKLA_API_URL || 'https://localhost:5000/api/tekla';
 
 // 類型定義
 export interface Point3D {
